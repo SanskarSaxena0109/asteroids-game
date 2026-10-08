@@ -1,136 +1,82 @@
+# Asteroids
 
-# Asteroids Game
+A classic 2D Asteroids game built in Python using Pygame and managed with `uv`.
 
-A small Asteroids-style game built with Python and Pygame.
+---
 
 ## Requirements
 
-- Windows, macOS, or Linux
-- Python 3.13 or newer
-- A graphical desktop session capable of opening a Pygame window
+* **Python 3.12+** (ensure "Add python.exe to PATH" is checked during installation)
+* [uv](https://github.com/astral-sh/uv) package manager
 
-The required dependency is pinned to `pygame==2.6.1` in `pyproject.toml`.
-
-## Setup
-
-Open a terminal in the directory that contains `main.py` and `pyproject.toml`.
-
-### Windows PowerShell
-
+To install `uv` on Windows using PowerShell:
 ```powershell
-cd path\to\asteroids-game
-py -3.13 -m venv .venv
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+---
+
+## Setup & Installation
+
+1. **Open PowerShell or Command Prompt (cmd) and clone the repository:**
+   ```cmd
+   git clone <your-repository-url>
+   cd <repository-folder>
+   ```
+
+2. **Sync dependencies and setup environment:**
+   Using `uv`:
+   ```cmd
+   uv sync
+   ```
+
+---
+
+## How to Run
+
+Run the game directly with `uv`:
+
+```cmd
+uv run python main.py
+```
+
+*(Optional) If you prefer running inside a standard virtual environment:*
+```powershell
+# Activate virtual environment in PowerShell
 .\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install pygame==2.6.1
-```
-
-If PowerShell blocks activation, either run the commands below in Command Prompt or allow local scripts for your user account:
-
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-### Windows Command Prompt
-
-```bat
-cd path\to\asteroids-game
-py -3.13 -m venv .venv
-.venv\Scripts\activate.bat
-python -m pip install --upgrade pip
-python -m pip install pygame==2.6.1
-```
-
-### macOS or Linux
-
-```bash
-cd path/to/asteroids-game
-python3.13 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install pygame==2.6.1
-```
-
-When the virtual environment is active, the terminal prompt normally starts with `.venv`.
-
-## Run the game
-
-From the project directory, with the virtual environment active:
-
-```bash
 python main.py
 ```
 
-The game opens a 1280 x 720 window. Close the window to exit. To leave the virtual environment after playing:
+> **Note for PowerShell Users:** If you get a script execution policy error when activating `.venv`, run PowerShell as Administrator once and execute:
+> ```powershell
+> Set-ExecutionPolicy Unrestricted -Scope Process
+> ```
 
-```bash
-deactivate
+---
+
+## Game Controls
+
+| Action | Key / Control |
+| :--- | :--- |
+| **Rotate Left** | `A` or `Left Arrow` |
+| **Rotate Right** | `D` or `Right Arrow` |
+| **Thrust Forward** | `W` or `Up Arrow` |
+| **Shoot** | `Spacebar` |
+
+---
+
+## Project Structure
+
+```text
+├── main.py            # Main game loop and Pygame initialization
+├── constants.py       # Game settings (screen dimensions, speeds, scaling)
+├── circleshape.py     # Base class for circular game objects with collision logic
+├── player.py          # Ship movement, rotation, and shooting logic
+├── asteroid.py        # Individual asteroid behavior and splitting mechanic
+├── asteroidfield.py   # Spawner managing waves of asteroids
+├── shot.py            # Bullet projectile tracking and lifetime
+├── logger.py          # Logging and analytics handler
+├── pyproject.toml     # Project configurations and dependency list
+├── uv.lock            # Lockfile for consistent environment setups
+└── .gitignore         # Windows & Python ignore rules
 ```
-
-## Controls
-
-| Key | Action |
-| --- | --- |
-| `A` | Rotate counterclockwise |
-| `D` | Rotate clockwise |
-| `W` | Move forward |
-| `S` | Move backward |
-| `Space` | Shoot |
-| Window close button | Quit |
-
-## Runtime logs
-
-While the game runs, it creates these files in the project directory:
-
-- `game_state.jsonl`: periodic snapshots of the screen and sprites
-- `game_events.jsonl`: gameplay events such as hits and asteroid splits
-
-These files are generated at runtime and can be deleted before another run. The state log is sampled for approximately the first 16 seconds of gameplay; event logging continues whenever an event occurs.
-
-## Project files
-
-| File | Purpose |
-| --- | --- |
-| `main.py` | Initializes Pygame and runs the game loop |
-| `player.py` | Player movement, rotation, and shooting |
-| `asteroid.py` | Asteroid movement, collisions, and splitting |
-| `asteroidfield.py` | Spawns asteroids around the screen edges |
-| `shot.py` | Projectile behavior |
-| `circleshape.py` | Shared circular sprite behavior |
-| `constants.py` | Screen size and gameplay settings |
-| `logger.py` | JSONL state and event logging |
-| `pyproject.toml` | Project metadata and dependency declaration |
-
-## Troubleshooting
-
-### `No module named pygame`
-
-Make sure the virtual environment is active, then install the dependency again:
-
-```bash
-python -m pip install pygame==2.6.1
-```
-
-You can verify the installation with:
-
-```bash
-python -c "import pygame; print(pygame.version.ver)"
-```
-
-### The wrong Python version is used
-
-Check the interpreter selected by the active terminal:
-
-```bash
-python --version
-```
-
-It should report Python 3.13 or newer. Recreate the environment with the Python 3.13 launcher if necessary.
-
-### The game window does not open
-
-Run the game from a normal desktop terminal rather than a headless session, remote shell without display forwarding, or environment that does not provide a graphical display.
-
-## Fresh setup after cloning
-
-After cloning this repository, change into the directory containing `main.py`, create a new `.venv`, install Pygame, and run `python main.py` using the commands above. No database, API key, external service, or additional asset download is required.
